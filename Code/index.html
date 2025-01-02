@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Run Script</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
+        button { padding: 10px 20px; font-size: 16px; }
+        #output { margin-top: 20px; white-space: pre-wrap; text-align: left; display: inline-block; }
+    </style>
+</head>
+<body>
+    <h1>Run Your Python Script</h1>
+    <button onclick="runScript()">Run Script</button>
+    <div id="output"></div>
+
+    <script>
+        async function runScript() {
+            const outputDiv = document.getElementById('output');
+            outputDiv.textContent = 'Running script...';
+            try {
+                const response = await fetch('/run-script', { method: 'POST' });
+                const data = await response.json();
+                if (data.error) {
+                    outputDiv.textContent = `Error:\n${data.error}`;
+                } else {
+                    outputDiv.textContent = `Output:\n${data.output}`;
+                }
+            } catch (err) {
+                outputDiv.textContent = `An error occurred: ${err}`;
+            }
+        }
+    </script>
+</body>
+</html>
